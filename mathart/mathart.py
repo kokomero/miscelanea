@@ -4,13 +4,24 @@ import argparse
 from math import *
 from progressbar import *
 
-#TODO:
-#Comment the function correctly
-#Todo give description on syntax parametrization
+"""A note on the parametrizations:
+On the script.sh file, we can find some examples for executing this program.
+
+The parametrization use k as the index for each iteration and n as the 
+number of lines or circles we will be draw on the image.
+
+The parametrization is read directly by the eval() python function, so, it 
+should be a correct python expression.
+
+"""
+
+#Number of steps of the bar status
 steps = 100
 
-#Create parser for command line arguments
 def getCommandLineParser():
+	"""Parse command line argument parameters.
+	Return a dictionary with the parameters parsed.
+    """
 	parser = argparse.ArgumentParser(description='Paint Math Art images composed of lines and circles.')
 	parser.add_argument('-s', default='1024', help='Create an image of size x size pixels', type=int)
 	parser.add_argument('-a', default="true", help='Apply antialiasing with subsampling: [true|false]', type=bool, required=False)
@@ -31,22 +42,32 @@ def getCommandLineParser():
 	return parser
 
 def drawLines(image, parametrization, n, colorDegrade, statusBar):
-	
-	#Get drawer object
+	"""Draw the set of lines in the image according to a parametrization
+
+    Keyword arguments:
+    image -- The Image object where the lines will be drawn.
+    parametrization -- The parametrization of each segment ((X1, Y1), (X2, Y2))
+    n -- Number of lines to be drawn
+    colorDegrade -- List with colors we will use to pain the lines
+    statusBar -- Status bar to show progress of this function
+    """
+    
+	#Get drawer object and image size
 	drawer = ImageDraw.Draw(image) 
 	size = image.size[0]
 	
-	#Number of colors for colros degrade
+	#Number of colors for the color degrade
 	nColors = len( colorDegrade )
 	
+	#Repeat for the n lines
 	for k in range(0, n):			
-		#Get initial and end point of the segment
+		#Get initial and end point of the segment, according to parametrization
 		X1 = eval(parametrization[0])
 		Y1 = eval(parametrization[1])
 		X2 = eval(parametrization[2])
 		Y2 = eval(parametrization[3])
 		
-		#Transform coordenates to the image coordenate system
+		#Transform coordenates [-1, 1] to the image coordenate system [0, size]
 		coord = (X1, Y1, X2, Y2)
 		coord_adjusted = [ (coord[j] + 1.0)/2.0*size for j in range(0,4) ]
 		
@@ -63,34 +84,44 @@ def drawLines(image, parametrization, n, colorDegrade, statusBar):
 			
 				
 def drawCircles(image, parametrization, n, colorDegrade, statusBar):
-	
-	#Get drawer object
+	"""Draw the set of circles in the image according to a parametrization
+
+    Keyword arguments:
+    image -- The Image object where the lines will be drawn.
+    parametrization -- The parametrization of each circle ((Xc, Yc), Radius)
+    n -- Number of circles to be drawn
+    colorDegrade -- List with colors we will use to pain the lines
+    statusBar -- Status bar to show progress of this function
+    """
+    
+	#Get drawer object and the size of the image
 	drawer = ImageDraw.Draw(image) 
 	size = image.size[0]
 	
 	#Number of colors for colros degrade
 	nColors = len( colorDegrade )
 	
-	#If the base elements are circles
+	#For each circle
 	for k in range(0, n):
-		#Get center and radius of the circle
+		#Get center and radius of the circle from parametrization
 		X = eval(parametrization[0])
 		Y = eval(parametrization[1])
 		r = eval(parametrization[2])
 		
-		#Transform coordenates of the bounding box
-		#To avoid cropping circles we have to add an extra dimension on the
-		#image size.
+		
+		#Get coordenates of bounding box in [-1, 1] space
 		box = (X-r, Y-r, X+r, Y+r)
 		
-		#pensar el porque de esta transformacion 
+		#Transform coordenates of the bounding box. Observe that 
+		#to avoid cropping circles we have had to add 
+		#an extra space on the image size.
 		box_adjusted = [ (box[j] + 1.0 + 1.0/4.0)/(2.0 + 2.0 / 4.0)*size for j in range(0,4) ]
 		
 		#Get a color from the color degrade
 		colorIndex = int( float(k) / n * nColors )
 		color = tuple( [ int(j*255) for j in colorDegrade[colorIndex].rgb ] )
 		
-		#Draw the line
+		#Draw the circle
 		drawer.ellipse(box_adjusted, outline=color)	
 		
 		#Update progress bar
@@ -99,16 +130,26 @@ def drawCircles(image, parametrization, n, colorDegrade, statusBar):
 	
 	
 def main():
+	"""Main method of the program. Parse the command line argumen
+	and draw the lines or circles on the image. Show the image and
+	eventually save the result in an output file.
+    """
+    
 	#Parse command line arguments
 	parser = getCommandLineParser()
 	#parser.print_help()
+	#Get arguments as a hash table
 	args = vars( parser.parse_args() )
 		
 	#Get command line parameters
 	image_size = args['s']
 	antialiasing = args['a']
 	supersampling = args['S']
-	if supersampling > 10:
+	
+	#To avoid running out of memory, do not allow
+	#big supersampling factors
+	if supersampling > 10: 
+		print "Supersampling factors is advised not to be greater than 10."
 		supersampling = 10
 		
 	n_elements = args['n']
@@ -118,24 +159,29 @@ def main():
 	end_color = args['C']
 	verbose = args['v']
 	
-	#To avoid cropping circles we have to add an extra dimension on the
+	#To avoid cropping circles we have to add an extra space on the
 	#image size.
 	if base_element == "circle":
 		image_size = image_size*(2)
 		
+	#If we use antialasing for better resolution, we create the plot
+	#on a bigger image and then downsize the result
 	if antialiasing:
 		super_size = image_size*supersampling
 	else:
 		super_size = image_size
 	
-	#Print description if verbose
+	#Print description if verbose is asked
 	if verbose:
 		print "Math art work with", base_element, "as base element."
 		print "Number of elements:", n_elements
 		print "Image size:", image_size, "x", image_size, "pixels."
+		
 		if antialiasing:
 			print "Using antialiasing with downsizing factor of", supersampling
+		
 		print "Color degrade from", init_color, "to", end_color
+		
 		if output_file is not None:
 			print "Saving result on file", output_file
 	
@@ -152,6 +198,7 @@ def main():
 	end_color = colour.Color(end_color)	
 	rainbow = list( init_color.range_to(end_color, nColors) )
 	
+	#For each kind of elements
 	if base_element == "line":		
 		#Get parametrization from command line
 		parametrization = (args["X1"], args["Y1"], args["X2"], args["Y2"])
