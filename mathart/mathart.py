@@ -5,8 +5,8 @@ from math import *
 from progressbar import *
 
 #TODO:
-#Be able to especify the formulas from command line or from a configuration file
 #Comment the function correctly
+#Todo give description on syntax parametrization
 steps = 100
 
 #Create parser for command line arguments
@@ -21,9 +21,16 @@ def getCommandLineParser():
 	parser.add_argument('-c', default="black", help='Init Color, for color degrade', type=str, required=False)	
 	parser.add_argument('-C', default="black", help='End Color, for color degrade', type=str, required=False)	
 	parser.add_argument('-v', default="true", help='Verbose mode', type=bool, required=False)	
+	parser.add_argument('-X1', default="sin(108.0*pi*k/n)*sin(4.0*pi*k/n)", help='X1 formula for line elements', type=str, required=False)	
+	parser.add_argument('-Y1', default="cos(106.0*pi*k/n)*sin(4.0*pi*k/n)", help='Y1 formula for line elements', type=str, required=False)	
+	parser.add_argument('-X2', default="sin(104.0*pi*k/n)*sin(4.0*pi*k/n)", help='X2 formula for line elements', type=str, required=False)	
+	parser.add_argument('-Y2', default="cos(102.0*pi*k/n)*sin(4.0*pi*k/n)", help='Y2 formula for line elements', type=str, required=False)	
+	parser.add_argument('-Xc', default="sin(14.0*pi*k/n)", help='X coordenate formula for circle center', type=str, required=False)	
+	parser.add_argument('-Yc', default="cos(26.0*pi*k/n)**3", help='Y coordenate formula for circle center', type=str, required=False)	
+	parser.add_argument('-R', default="1.0/4.0*cos(40.0*pi*k/n)**2", help='Radius formula for circle', type=str, required=False)	
 	return parser
 
-def drawLines(image, n, colorDegrade, statusBar):
+def drawLines(image, parametrization, n, colorDegrade, statusBar):
 	
 	#Get drawer object
 	drawer = ImageDraw.Draw(image) 
@@ -34,10 +41,10 @@ def drawLines(image, n, colorDegrade, statusBar):
 	
 	for k in range(0, n):			
 		#Get initial and end point of the segment
-		X1 = sin(108.0*pi*k/n)*sin(4.0*pi*k/n)
-		Y1 = cos(106.0*pi*k/n)*sin(4.0*pi*k/n)
-		X2 = sin(104.0*pi*k/n)*sin(4.0*pi*k/n)
-		Y2 = cos(102.0*pi*k/n)*sin(4.0*pi*k/n)
+		X1 = eval(parametrization[0])
+		Y1 = eval(parametrization[1])
+		X2 = eval(parametrization[2])
+		Y2 = eval(parametrization[3])
 		
 		#Transform coordenates to the image coordenate system
 		coord = (X1, Y1, X2, Y2)
@@ -55,7 +62,7 @@ def drawLines(image, n, colorDegrade, statusBar):
 			statusBar.update( int( float(k) / n * steps) )
 			
 				
-def drawCircles(image, n, colorDegrade, statusBar):
+def drawCircles(image, parametrization, n, colorDegrade, statusBar):
 	
 	#Get drawer object
 	drawer = ImageDraw.Draw(image) 
@@ -67,13 +74,17 @@ def drawCircles(image, n, colorDegrade, statusBar):
 	#If the base elements are circles
 	for k in range(0, n):
 		#Get center and radius of the circle
-		X = sin(14.0*pi*k/n)
-		Y = cos(26.0*pi*k/n)**3
-		r = 1.0/4.0*cos(40.0*pi*k/n)**2
+		X = eval(parametrization[0])
+		Y = eval(parametrization[1])
+		r = eval(parametrization[2])
 		
 		#Transform coordenates of the bounding box
+		#To avoid cropping circles we have to add an extra dimension on the
+		#image size.
 		box = (X-r, Y-r, X+r, Y+r)
-		box_adjusted = [ (box[j] + 1.0)/2.0*size for j in range(0,4) ]
+		
+		#pensar el porque de esta transformacion 
+		box_adjusted = [ (box[j] + 1.0 + 1.0/4.0)/(2.0 + 2.0 / 4.0)*size for j in range(0,4) ]
 		
 		#Get a color from the color degrade
 		colorIndex = int( float(k) / n * nColors )
@@ -92,7 +103,7 @@ def main():
 	parser = getCommandLineParser()
 	#parser.print_help()
 	args = vars( parser.parse_args() )
-	
+		
 	#Get command line parameters
 	image_size = args['s']
 	antialiasing = args['a']
@@ -107,6 +118,11 @@ def main():
 	end_color = args['C']
 	verbose = args['v']
 	
+	#To avoid cropping circles we have to add an extra dimension on the
+	#image size.
+	if base_element == "circle":
+		image_size = image_size*(2)
+		
 	if antialiasing:
 		super_size = image_size*supersampling
 	else:
@@ -114,7 +130,7 @@ def main():
 	
 	#Print description if verbose
 	if verbose:
-		print "Art work with", base_element, "as base element."
+		print "Math art work with", base_element, "as base element."
 		print "Number of elements:", n_elements
 		print "Image size:", image_size, "x", image_size, "pixels."
 		if antialiasing:
@@ -137,12 +153,24 @@ def main():
 	rainbow = list( init_color.range_to(end_color, nColors) )
 	
 	if base_element == "line":		
+		#Get parametrization from command line
+		parametrization = (args["X1"], args["Y1"], args["X2"], args["Y2"])
+		
+		if verbose:
+			print "Parametrization:", parametrization
+			
 		#If the base element are lines
-		drawLines(img, n_elements, rainbow, bar)
+		drawLines(img, parametrization, n_elements, rainbow, bar)
 			
 	elif base_element == "circle":
+		#Get parametrization from command line
+		parametrization = (args["Xc"], args["Yc"], args["R"])
+		
+		if verbose:
+			print "Parametrization:", parametrization
+			
 		#If the base element are circles
-		drawCircles(img, n_elements, rainbow, bar)
+		drawCircles(img, parametrization, n_elements, rainbow, bar)
 		
 	else:
 		parser.print_help()
@@ -154,7 +182,12 @@ def main():
 	#To avoid antialiasing, we downsample the image with an
 	#Antialias filter
 	if antialiasing:
-		img = img.resize((image_size, image_size), Image.ANTIALIAS)
+		#In case of circle, we have to reduce to half the original size
+		#since we created larger image to avoid circle cropping
+		if base_element == "circle":
+			image_size = image_size / 2	
+			
+		img = img.resize((image_size, image_size), Image.ANTIALIAS)			
 		
 	#Show the result
 	img.show()
@@ -162,7 +195,6 @@ def main():
 	#Save the image if we specified an output file	
 	if output_file is not None:
 		img.save(output_file)
-
 
 
 if __name__ == "__main__":
