@@ -11,7 +11,6 @@ def getCommandLineParser():
  parser.add_argument('-l', default='100', help='Length of the needle', type=int)
  parser.add_argument('-n', default='300', help='Number of needles thrown in each simulation', type=int)
  parser.add_argument('-m', default='1', help='Number of simulations', type=int)
- parser.add_argument('-o', help='File name to save the simulation into a GIF animation (.gif)', type=str, required=False)	
  return parser
 
 def paintBars(image, t, l):
@@ -30,7 +29,7 @@ def paintBars(image, t, l):
  draw.line([(l + 2 * t,0), (l + 2 * t, size)], white)
  
 def throwNeedle(image, n, t, l):
- """Throw n needle in the simulation board"""
+ """Throw n needles in the simulation board"""
  """Paint in red needles touching one of the bars"""
  
  #Define color for the bars
@@ -58,7 +57,7 @@ def throwNeedle(image, n, t, l):
   pointB = (x + l / 2 * math.sin( alpha ), y + l / 2 * math.cos( alpha ) )
   pointA = (x - l / 2 * math.sin( alpha ), y - l / 2 * math.cos( alpha ) )
  
-  #Check if the needle touch a line
+  #Check if the needle touch a vertical bar
   (xA, xB) = (pointA[0], pointB[0])
   touch = ( xA < bar_pos[0] and xB > bar_pos[0] ) or \
       ( xA < bar_pos[1] and xB > bar_pos[1] ) or \
@@ -86,11 +85,6 @@ def main():
  l = args['l']
  n = args['n']
  m = args['m']
-
- if args['o'] is None:
-  None
- else: 
-  None
 
  #Description of the simulation
  print "Starting simulation for ", n, " needles."
