@@ -11,3 +11,4 @@ python mathart.py -c black -C blue -n 25000 -o "artwork6.png" -e circle -Xc "cos
 python mathart.py -c red -C green -n 25000 -o "artwork7.png" -e circle -Xc "sin(22.0*pi*k/n)**3" -Yc "cos(6.0*pi*k/n)" -R "1.0/5.0*cos(58.0*pi*k/n)**2"
 python mathart.py -c yellow -C blue -n 25000 -o "artwork8.png" -e circle -Xc "cos(2.0*pi*k/n)" -Yc "sin(18.0*pi*k/n)**3" -R "1.0/4.0*cos(42.0*pi*k/n)**2"
 
+python mathart.py -c black -C black -n 50 -o "artwork10.png" -e line -X1 "0.0" -Y1 "sin(pi/2.0*k/n)*(-1.0)" -X2 "cos(pi/2.0*k/n)" -Y2 "0.0"
