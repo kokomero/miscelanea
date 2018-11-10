@@ -1,11 +1,13 @@
 # Tower of Hanoi
 
-This piece of code intents to solve the [a Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_Hanoi) problem in a graphical way, probably making use of different methods.
+This piece of code intents to solve the [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_Hanoi) problem in a graphical way, probably making use of different methods.
 
 The code display a Tower of Hanoi play set on the screen, using pyglet library, and start playing the game automatically. Discs
 start moving from column to column, playing the rule of the game, until the final configuration is achieved, when the game ends.
 
 Game can be ended by pressing ESC key or closing the window.
+
+You can find a real wooden Tower of Hanoi playset that I crafted [here](http://www.victormontielargaiz.net/album/woodworking/hanoi_tower_1.jpg), which gave me the inspiration to write this piece of code.
 
 ## Getting Started
 
