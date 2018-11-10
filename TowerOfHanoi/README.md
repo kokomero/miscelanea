@@ -8,7 +8,7 @@ start moving from column to column, playing the rule of the game, until the fina
 Game can be ended by pressing ESC key or closing the window.
 
 You can find a real wooden Tower of Hanoi playset that I crafted [here](http://www.victormontielargaiz.net/album/woodworking/hanoi_tower_1.jpg), which gave me the inspiration to write this piece of code.
-
+![Tower of Hanoi wooden playset](http://www.victormontielargaiz.net/album/woodworking/hanoi_tower_1.jpg)
 ## Getting Started
 
 Clone this repository on your local disk by executing. You will download as well other small projects
