@@ -9,6 +9,7 @@ Game can be ended by pressing ESC key or closing the window.
 
 You can find a real wooden Tower of Hanoi playset that I crafted [here](http://www.victormontielargaiz.net/album/woodworking/hanoi_tower_1.jpg), which gave me the inspiration to write this piece of code.
 ![Tower of Hanoi wooden playset](http://www.victormontielargaiz.net/album/woodworking/hanoi_tower_1.jpg)
+
 ## Getting Started
 
 Clone this repository on your local disk by executing. You will download as well other small projects
@@ -22,6 +23,9 @@ Install numpy and pyglet packages, these are available in the Python pip reposit
 ## Execution
 
 python Hanoi.py
+
+The result of the execution should be a windows like the following one:
+![Animation video](https://github.com/kokomero/miscelanea/tree/master/TowerOfHanoi/output.gif)
 
 ## Deployment
 
