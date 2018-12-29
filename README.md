@@ -4,6 +4,18 @@ Each of these folders contains simple projects on different subjects
 You can check further details for each project on my blog:
 [Rotpunkt Blog](https://rotpunkt-programming.blogspot.com/)
 
+## Short description
+
+* TowerOfHanoi: Recursive implementation of the Tower of Hanoi mathematical problem
+* Buffon Needle: Graphical and MonteCarlo implementation of the Buffon needle to estimate pi
+* Diffusion Limited Aggregation: Graphical simulation of a Diffusion Limited Aggregation problem
+* gpxreader: Some tools to read GPX file using R. The code is obsolete, i will rewrite this in Python
+* humanearing: Some code to estimate the range of frequencies your ear is able to hear
+* mathart: Some generator of mathematical art pieces with circles and lines
+* newtonpendulum: Simulation of a Newton pendulum, unfinished
+* pursuitCurves: Generation and simulation of Pursuit Curves
+* vCard_QRcode: Generation of QR vcards with your personal data
+
 ## Getting Started
 
 Clone this repository on your local disk by executing the line below. 
