@@ -19,7 +19,7 @@ Install numpy and pyglet packages, these are available in the Python pip reposit
 python object_pursuit_curve.py
 
 The result of the execution should be a windows like the following one, in case we execute the fixed image:
-![Four Body Pursuing Problem](https://github.com/kokomero/miscelanea/tree/master/pursuitCurves/four_body_problem.png)
+![Four Body Pursuing Problem](four_body_problem.png)
 
 The simulation can be ended by pressing ESC key or closing the window.
 
