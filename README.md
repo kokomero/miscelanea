@@ -6,8 +6,8 @@ You can check further details for each project on my blog:
 
 ## Short description
 
-* TowerOfHanoi: Recursive implementation of the Tower of Hanoi mathematical problem
-* Buffon Needle: Graphical and MonteCarlo implementation of the Buffon needle to estimate pi
+* [TowerOfHanoi](https://github.com/kokomero/miscelanea/tree/master/TowerOfHanoi): Recursive implementation of the Tower of Hanoi mathematical problem
+* [Buffon Needle](https://github.com/kokomero/miscelanea/tree/master/buffonneedle): Graphical and MonteCarlo implementation of the Buffon needle to estimate pi
 * Diffusion Limited Aggregation: Graphical simulation of a Diffusion Limited Aggregation problem
 * gpxreader: Some tools to read GPX file using R. The code is obsolete, i will rewrite this in Python
 * humanearing: Some code to estimate the range of frequencies your ear is able to hear
@@ -35,6 +35,7 @@ Read README.md file of each folder to find out about how to deploy each project
 
 ## TODOs
 * Add a README.md file to each of the folders
+* Complete the list of html links in the short description section
 
 ## References
 
