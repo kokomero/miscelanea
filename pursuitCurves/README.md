@@ -1,11 +1,12 @@
 # Pursuit Curve Problem
 
 This snippet of code visualizes the [Pursuit Curves](https://en.wikipedia.org/wiki/Pursuit_curve) between different moving objects, either with an image or an animation.
-Simulation method has been used instead of mathematical formulation, usnig the pyglet library.
+Simulation method has been used instead of mathematical formulation, using the pyglet library for rendering the images.
 
 ## Getting Started
 
-Clone this repository on your local disk by executing. You will download as well other small projects
+Clone this repository on your local disk by executing the line below. 
+Be aware you will download other small projects as well
 
 git clone https://github.com/kokomero/miscelanea/
 
@@ -17,8 +18,8 @@ Install numpy and pyglet packages, these are available in the Python pip reposit
 
 python object_pursuit_curve.py
 
-The result of the execution should be a windows like the following one:
-![Animation video](https://github.com/kokomero/miscelanea/tree/master/TowerOfHanoi/output.gif)
+The result of the execution should be a windows like the following one, in case we execute the fixed image:
+![Four Body Pursuing Problem](https://github.com/kokomero/miscelanea/tree/master/pursuitCurves/four_body_problem.png)
 
 The simulation can be ended by pressing ESC key or closing the window.
 
