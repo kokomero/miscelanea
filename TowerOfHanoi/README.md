@@ -10,6 +10,9 @@ Game can be ended by pressing ESC key or closing the window.
 You can find a real wooden Tower of Hanoi playset that I crafted [here](http://www.victormontielargaiz.net/album/woodworking/hanoi_tower_1.jpg), which gave me the inspiration to write this piece of code.
 ![Tower of Hanoi wooden playset](http://www.victormontielargaiz.net/album/woodworking/hanoi_tower_1.jpg)
 
+You can check my blog entry on the problem:
+[Rotpunkt Blog, Tower of Hanoi](https://rotpunkt-programming.blogspot.com/2018/11/tower-of-hanoi.html)
+
 ## Getting Started
 
 Clone this repository on your local disk by executing. You will download as well other small projects

@@ -3,6 +3,9 @@
 This snippet of code visualizes the [Pursuit Curves](https://en.wikipedia.org/wiki/Pursuit_curve) between different moving objects, either with an image or an animation.
 Simulation method has been used instead of mathematical formulation, using the pyglet library for rendering the images.
 
+You can check my blog entry on the problem:
+[Rotpunkt Blog, Pursuit Curves](https://rotpunkt-programming.blogspot.com/2018/12/pursuit-curves.html)
+
 ## Getting Started
 
 Clone this repository on your local disk by executing the line below. 
