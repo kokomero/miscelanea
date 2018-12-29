@@ -39,7 +39,7 @@ Just copy the files in a local directory, make sure the required libraries are i
 * Wikipedia: [Pursuit Curves, in French](https://fr.wikipedia.org/wiki/Courbe_du_chien)
 * Universidad Complutense de Madrid: [Page on Pursuit Curves, in Spanish](http://www.mat.ucm.es/cosasmdg/cdsmdg/modelizaciones/proyectos/proyecto2/index.htm)
 * Wolfram Research: [entry for Pursuit Curves, in English](http://mathworld.wolfram.com/PursuitCurve.html)
-
+* Wikipedia: [Envelope curves, in English](https://en.wikipedia.org/wiki/Envelope_(mathematics))
 ## Contributing
 
 Feel free to contribute to this piece of code
