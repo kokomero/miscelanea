@@ -31,10 +31,10 @@ Just copy the files in a local directory, make sure the required libraries are i
 * Define the configuration of the problem, including moving objects and their relationship in a configuration file
 
 ## References
-*[Wikipedia Pursuit Curves, in English](https://en.wikipedia.org/wiki/Pursuit_curve)
-*[Wikipedia Pursuit Curves, in French](https://fr.wikipedia.org/wiki/Courbe_du_chien)
-*[UCM page on Pursuit Curves, in Spanish](http://www.mat.ucm.es/cosasmdg/cdsmdg/modelizaciones/proyectos/proyecto2/index.htm)
-*[Wolfram page for Pursuit Curves, in English](http://mathworld.wolfram.com/PursuitCurve.html)
+* [Wikipedia Pursuit Curves, in English](https://en.wikipedia.org/wiki/Pursuit_curve)
+* [Wikipedia Pursuit Curves, in French](https://fr.wikipedia.org/wiki/Courbe_du_chien)
+* [UCM page on Pursuit Curves, in Spanish](http://www.mat.ucm.es/cosasmdg/cdsmdg/modelizaciones/proyectos/proyecto2/index.htm)
+* [Wolfram page for Pursuit Curves, in English](http://mathworld.wolfram.com/PursuitCurve.html)
 
 ## Contributing
 
