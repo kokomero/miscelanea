@@ -2,7 +2,6 @@
 
 This snippet of code visualizes the [Pursuit Curves](https://en.wikipedia.org/wiki/Pursuit_curve) between different moving objects, either with an image or an animation.
 Simulation method has been used instead of mathematical formulation, usnig the pyglet library.
-The simulation can be ended by pressing ESC key or closing the window.
 
 ## Getting Started
 
@@ -14,14 +13,16 @@ git clone https://github.com/kokomero/miscelanea/
 
 Install numpy and pyglet packages, these are available in the Python pip repository
 
-## Execution
+### Execution
 
 python object_pursuit_curve.py
 
 The result of the execution should be a windows like the following one:
 ![Animation video](https://github.com/kokomero/miscelanea/tree/master/TowerOfHanoi/output.gif)
 
-## Deployment
+The simulation can be ended by pressing ESC key or closing the window.
+
+### Deployment
 
 Just copy the files in a local directory, make sure the required libraries are installed and execute the script following above instructions.
 
@@ -30,10 +31,10 @@ Just copy the files in a local directory, make sure the required libraries are i
 * Define the configuration of the problem, including moving objects and their relationship in a configuration file
 
 ## References
-[Wikipedia Pursuit Curves, in English](https://en.wikipedia.org/wiki/Pursuit_curve)
-[Wikipedia Pursuit Curves, in French](https://fr.wikipedia.org/wiki/Courbe_du_chien)
-[UCM page on Pursuit Curves, in Spanish](http://www.mat.ucm.es/cosasmdg/cdsmdg/modelizaciones/proyectos/proyecto2/index.htm)
-[Wolfram page for Pursuit Curves, in English](http://mathworld.wolfram.com/PursuitCurve.html)
+*[Wikipedia Pursuit Curves, in English](https://en.wikipedia.org/wiki/Pursuit_curve)
+*[Wikipedia Pursuit Curves, in French](https://fr.wikipedia.org/wiki/Courbe_du_chien)
+*[UCM page on Pursuit Curves, in Spanish](http://www.mat.ucm.es/cosasmdg/cdsmdg/modelizaciones/proyectos/proyecto2/index.htm)
+*[Wolfram page for Pursuit Curves, in English](http://mathworld.wolfram.com/PursuitCurve.html)
 
 ## Contributing
 
