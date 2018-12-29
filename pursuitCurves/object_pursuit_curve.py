@@ -16,10 +16,11 @@ class ObjectPursuit( pyglet.window.Window ):
     """
     key = pyglet.window.key
     
-    def __init__(self, moving_objects, size, dt ):
+    def __init__(self, name, moving_objects, size, dt ):
         """
         Constructor method
         Arguments:
+            name : str, problem name
             moving_objects: dict with moving objects where relationships of
             who is the follower and who the leader has been established            
             size: tuple of ints, size of the window            
@@ -27,7 +28,7 @@ class ObjectPursuit( pyglet.window.Window ):
         """
         #Create the window
         super(ObjectPursuit, self).__init__(*size,
-                                         "Two Object Pursuit Curve", 
+                                         name, 
                                          fullscreen = False, resizable=True)
         
         #delta refresh time and number of iterations
@@ -98,13 +99,15 @@ class ObjectPursuitImage( ObjectPursuit ):
     Models a Pursuit Curve problem on a three dimensional space
     with a fixed image
     """
-    def __init__(self, moving_objects, size, dt, iterations = None, 
+    def __init__(self, name, moving_objects, size, dt, iterations = None, 
                  envelope = False,
                  closeness = 0.01):     
 
         """
         Constructor method
         Arguments:
+            name: str, name of the problem
+            
             moving_objects: list with moving objects where relationships of
             who is the follower and who the leader has been established
             
@@ -123,7 +126,7 @@ class ObjectPursuitImage( ObjectPursuit ):
         """
          
         #create the object
-        super(ObjectPursuitImage, self).__init__(moving_objects, size, dt)
+        super(ObjectPursuitImage, self).__init__(name, moving_objects, size, dt)
         
         self.iterations = iterations
         self.envelope = envelope
@@ -237,14 +240,16 @@ class ObjectPursuitCurveAnimator(ObjectPursuit, threading.Thread):
     with animation
     """
     
-    def __init__(self, moving_objects, size, dt):
+    def __init__(self, name, moving_objects, size, dt):
         
         #Create the thread
         threading.Thread.__init__(self)
         
         #Create the window
-        super(ObjectPursuitCurveAnimator, self).__init__(moving_objects,
-                                         size, dt)
+        super(ObjectPursuitCurveAnimator, self).__init__(name, 
+                                         moving_objects,
+                                         size, 
+                                         dt)
         
   
     def render(self):     
@@ -293,84 +298,24 @@ class ObjectPursuitCurveAnimator(ObjectPursuit, threading.Thread):
         #Call back function to be called every refresh
         pyglet.clock.schedule_interval(self.next_step, self.dt )   
     
-            
-def main():
     
-    #Problem configuration
-    k = 2.0 #Speed ratio
-    leader_speed = 2.0
-    follower_speed = k * leader_speed
+def create_problem_scenarion( config ):
+    """
+    Given a config dict describing the problem, create the moving objects and
+    their relationship as specified in the problem description file
     
-    #Time between movements updates on the screen
-    DELTA_TIME_SECONDS = 6.0
+    Arguments:
+        config: dict containing the definition of the moving objects as well
+        as other configuration parameters
     
-    #config dict to be exported as a json file
-    #TODO: Move line width and colors to the configuration file
+    Returns:
+        dict containing the moving objects
+    """
+    movers = config['movers'] #definition of the moving objects of the problem
+    moving_objects = { } #dict storing all moving objects from the problem description
     
-    #Two body problem
-    config_two_body = {
-            'dt' : DELTA_TIME_SECONDS,
-            'windows_size' : (400, 400),
-            'animation' : False,
-            'iterations' : 1000,
-            'closeness' : DELTA_TIME_SECONDS,
-            'envelope' : True,
-            'frame_per_second' : 20,
-            'movers' : [
-                         { 'name' : 'Follower A',
-                           'r_0' : (10, 250, 0),
-                           'v_0' : (0, 1, 0),
-                           'speed' : follower_speed,
-                           'leader' : 'Leader B'
-                         },
-                         { 'name' : 'Leader B',
-                           'r_0' : (10, 10, 0),
-                           'v_0' : (1, 0.25, 0),
-                           'speed' : leader_speed,
-                           'leader' : None
-                         }
-                      ]
-            }
-            
-    #Two body problem
-    config_three_body = {
-            'dt' : DELTA_TIME_SECONDS,
-            'windows_size' : (400, 400),
-            'animation' : False,
-            'iterations' : 1000,
-            'closeness' : DELTA_TIME_SECONDS / 2,
-            'envelope' : True,
-            'frame_per_second' : 20,
-            'movers' : [
-                         { 'name' : 'A',
-                           'r_0' : (10, 10, 0),
-                           'v_0' : (1, 0, 0),
-                           'speed' : leader_speed,
-                           'leader' : 'B'
-                         },
-                         { 'name' : 'B',
-                           'r_0' : (210, 10, 0),
-                           'v_0' : (1, 0, 0),
-                           'speed' : leader_speed,
-                           'leader' : 'C'
-                         },
-                         { 'name' : 'C',
-                           'r_0' : ( 200 / 2 + 10, 10 + 200 * np.sqrt(3) / 2.0 , 0),
-                           'v_0' : (1, 0, 0),
-                           'speed' : leader_speed,
-                           'leader' : 'A'
-                         }
-                      ]
-            }
-            
-    
-    #Create the followers and leaders from config file
-    config = config_three_body
-    movers = config['movers']
-    moving_objects = { }
-    
-    for mover in movers:        
-        #Create object
+    #Create object
+    for mover in movers:                
         mover_obj = Mover( name = mover['name'], 
                       r0 = mover['r_0'], 
                       v0 = mover['v_0'], 
@@ -386,21 +331,100 @@ def main():
         if not leader_name is None:      
             leader = moving_objects[ leader_name ]
             moving_objects[ name ].set_leader( leader )
+            
+    return moving_objects
     
-   
+
+#Problem configuration
+k = 2.0 #Speed ratio
+leader_speed = 2.0
+follower_speed = k * leader_speed
+
+#Time between movements updates on the screen
+DELTA_TIME_SECONDS = 6.0
+    
+#config dict to be exported as a json file
+#TODO: Move line width and colors to the configuration file
+    
+#Two body problem
+config_two_body = {
+        'problem_name' : 'Two Object Pursuing Problem',
+        'dt' : DELTA_TIME_SECONDS,
+        'windows_size' : (400, 400),
+        'animation' : False,
+        'iterations' : 1000,
+        'closeness' : DELTA_TIME_SECONDS,
+        'envelope' : True,
+        'frame_per_second' : 20,
+        'movers' : [
+                     { 'name' : 'Follower A',
+                       'r_0' : (10, 250, 0),
+                       'v_0' : (0, 1, 0),
+                       'speed' : follower_speed,
+                       'leader' : 'Leader B'
+                     },
+                     { 'name' : 'Leader B',
+                       'r_0' : (10, 10, 0),
+                       'v_0' : (1, 0.25, 0),
+                       'speed' : leader_speed,
+                       'leader' : None
+                     }
+                  ]
+        }
+        
+#Three body problem
+config_three_body = {
+        'problem_name' : 'Three Object Pursuing Problem forming a Triangle',
+        'dt' : DELTA_TIME_SECONDS,
+        'windows_size' : (400, 400),
+        'animation' : False,
+        'iterations' : 1000,
+        'closeness' : DELTA_TIME_SECONDS / 2,
+        'envelope' : True,
+        'frame_per_second' : 20,
+        'movers' : [
+                     { 'name' : 'A',
+                       'r_0' : (10, 10, 0),
+                       'v_0' : (1, 0, 0),
+                       'speed' : leader_speed,
+                       'leader' : 'B'
+                     },
+                     { 'name' : 'B',
+                       'r_0' : (210, 10, 0),
+                       'v_0' : (1, 0, 0),
+                       'speed' : leader_speed,
+                       'leader' : 'C'
+                     },
+                     { 'name' : 'C',
+                       'r_0' : ( 200 / 2 + 10, 10 + 200 * np.sqrt(3) / 2.0 , 0),
+                       'v_0' : (1, 0, 0),
+                       'speed' : leader_speed,
+                       'leader' : 'A'
+                     }
+                  ]
+        }
+            
+def main():
+    
+    #Create the followers and leaders from config file
+    config = config_three_body
+    moving_objects = create_problem_scenarion( config )
+    
     #Create the Pursuit Curve problem depending on whether it is an animation
     #or a fixed image
     if config['animation']:
-        problem = ObjectPursuitCurveAnimator(moving_objects, 
-                                        size = config['windows_size'], 
-                                        dt = config['dt'])
+        problem = ObjectPursuitCurveAnimator(config['problem_name'],
+                                             moving_objects, 
+                                             size = config['windows_size'], 
+                                             dt = config['dt'])
     else:
-        problem = ObjectPursuitImage(moving_objects, 
-                                        size = config['windows_size'], 
-                                        dt = config['dt'],
-                                        iterations = config['iterations'],
-                                        closeness = config['closeness'],
-                                        envelope = config['envelope'] )
+        problem = ObjectPursuitImage(config['problem_name'],
+                                     moving_objects, 
+                                    size = config['windows_size'], 
+                                    dt = config['dt'],
+                                    iterations = config['iterations'],
+                                    closeness = config['closeness'],
+                                    envelope = config['envelope'] )
     
     #Force rendering of screen at start up
     problem.dispatch_events()
@@ -414,8 +438,7 @@ def main():
     problem.start()
     
     #Pyglet manual Event loop    
-    #there is only one window in the program
-    window = list( pyglet.app.windows )[0]
+    window = list( pyglet.app.windows )[0] #there is only one window in the program
     
     while True:
         pyglet.clock.tick()            
