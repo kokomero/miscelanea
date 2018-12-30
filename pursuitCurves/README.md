@@ -32,7 +32,6 @@ Just copy the files in a local directory, make sure the required libraries are i
 
 ## TODOs
 * Implement antialiasing
-* Define the configuration of the problem, including moving objects and their relationship in a configuration JSON file
 * Move line width and colors to the configuration file. Each moving object could have lines linking pursuers and leaders in different colors
 * Define scenarios in 3D space, and be able to rotate the image in 3D
 * Be able to define parametric velocity vector for a leader so that we can implement circular movements
