@@ -19,7 +19,11 @@ Install numpy and pyglet packages, these are available in the Python pip reposit
 
 ### Execution
 
-python object_pursuit_curve.py
+Run the script passing as argument an input file with the description of the problem. Several files are provided for now
+for different problems. See .cfg files for scenario examples. In the configuration file you can easily setup the initial position of each of the moving object as well as their speed.
+Likewise, you choose whether you want an animated version of the problem of the resulting final image, as well as setting up parameters such as screen refreshing time.
+
+python object_pursuit_curve.py -i four_body_problem.cfg
 
 The result of the execution should be a windows like the following one, in case we execute the fixed image:
 ![Four Body Pursuing Problem](four_body_problem.png)

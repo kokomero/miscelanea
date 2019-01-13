@@ -6,6 +6,7 @@ import sys, getopt
 from mover import Mover
 from object_pursuit_image import ObjectPursuitImage
 from object_pursuit_animator import ObjectPursuitCurveAnimator
+from object_pursuit_3d_view import ObjectPursuit3DView
 
 def create_problem_scenario( config ):
     """
@@ -52,7 +53,7 @@ def main( argv ):
       if len(opts) < 1:
           print( 'Syntax: object_pursuit_curve.py -i <inputfile>' ) 
           print( 'Using default four body problem as scenario (four_body_problem.cfg)' )
-          file_name = r'four_body_problem.cfg'
+          file_name = r'3d_three_body_problem.cfg'
       
       for opt, arg in opts:
           if opt == '-h':
@@ -64,7 +65,7 @@ def main( argv ):
     except getopt.GetoptError:
       print( 'Syntax: object_pursuit_curve.py -i <inputfile>' )
       print( 'Using default four body problem as scenario (four_body_problem.cfg)' )
-      file_name = r'four_body_problem.cfg'
+      file_name = r'3d_three_body_problem.cfg'
     
     #Read config file with the description of the problem
     with open(file_name, 'r') as f:
@@ -81,7 +82,7 @@ def main( argv ):
                                              size = config['windows_size'], 
                                              dt = config['dt'])
     else:
-        problem = ObjectPursuitImage(config['problem_name'],
+        problem = ObjectPursuit3DView(config['problem_name'],
                                      moving_objects, 
                                      size = config['windows_size'], 
                                      dt = config['dt'],
